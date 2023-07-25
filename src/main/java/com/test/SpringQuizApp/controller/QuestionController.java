@@ -17,24 +17,25 @@ public class QuestionController {
     Logger logger = LoggerFactory.getLogger(SpringQuizAppApplication.class);
     @Autowired
     public QuestionService questionService;
+
     @GetMapping("getQuestion")
-    public ResponseEntity<List<Question>> getAllQuestions(){
+    public ResponseEntity<List<Question>> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 
     @GetMapping("getQuestionByCategory/{category}")
-    public ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category){
+    public ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category) {
         return questionService.getQuestionByCategory(category);
     }
 
     @PostMapping("addQuestion")
-    public ResponseEntity<String> addQuestion(@RequestBody Question question){
+    public ResponseEntity<String> addQuestion(@RequestBody Question question) {
         return questionService.addNewQuestion(question);
 
     }
 
     @DeleteMapping("deleteQuestion")
-    public ResponseEntity<String> deleteQuestion(@RequestBody Question question){
+    public ResponseEntity<String> deleteQuestion(@RequestBody Question question) {
         return questionService.deleteQuestion(question.getId());
     }
 
