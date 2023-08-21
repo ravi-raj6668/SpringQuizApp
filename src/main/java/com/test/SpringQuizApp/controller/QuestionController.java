@@ -6,6 +6,7 @@ import com.test.SpringQuizApp.service.QuestionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,4 +40,8 @@ public class QuestionController {
         return questionService.deleteQuestion(question.getId());
     }
 
+    @GetMapping(value = "getColumnValue/{columnValue}" ,produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> getColumnDataByValue(@PathVariable(name = "columnValue") String columnName){
+        return questionService.getDataByColumnValue(columnName);
+    }
 }

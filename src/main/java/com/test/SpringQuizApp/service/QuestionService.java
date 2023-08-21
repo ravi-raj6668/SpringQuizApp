@@ -2,15 +2,19 @@ package com.test.SpringQuizApp.service;
 
 import com.test.SpringQuizApp.Doa.QuestionDao;
 import com.test.SpringQuizApp.dto.Question;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 public class QuestionService {
 
     @Autowired
@@ -56,5 +60,22 @@ public class QuestionService {
             e.printStackTrace();
             return new ResponseEntity<>("Question with id : " + " not found", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public ResponseEntity<String> getDataByColumnValue(String columnName) {
+        List<String> columnData = new ArrayList<>();
+        try {
+            List<Question> questionList = questionDao.findAll();
+            for (Question questionData : questionList) {
+                // Using reflection to dynamically access the getter method based on the column name
+                Method getter = Question.class.getMethod("get" + StringUtils.capitalize(columnName));
+                Object value = getter.invoke(questionData);
+                columnData.add(value != null ? value.toString() : "null");
+            }
+        } catch (Exception e) {
+            log.error("Error while fetching data from db : " + " for column Name : " + columnName, e);
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(columnData.toString());
     }
 }
