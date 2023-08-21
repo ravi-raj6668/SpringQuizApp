@@ -41,3 +41,19 @@ INSERT INTO question(id,category,difficulty_level,option1,option2,option3,option
 INSERT INTO question(id,category,difficulty_level,option1,option2,option3,option4,question_title,right_answer) VALUES (16,'Python','Easy','datetime','math','os','sys','Which Python module is used for working with dates and times?','datetime');
 
 
+
+create table quiz(
+	id serial NOT NULL primary key,
+    quiz_title varchar(255) DEFAULT NULL
+);
+
+
+CREATE TABLE quiz_questions (
+    quiz_id SERIAL NOT NULL,
+    questions_id SERIAL NOT NULL,
+    primary key (quiz_id, questions_id),
+    constraint quiz
+    FOREIGN KEY (quiz_id) REFERENCES quiz (id),
+    constraint question
+    FOREIGN KEY (questions_id) REFERENCES question (id)
+);
